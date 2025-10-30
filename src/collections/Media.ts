@@ -1,3 +1,4 @@
+import { Input } from '@/components/ui/input'
 import type { CollectionConfig } from 'payload'
 
 export const Media: CollectionConfig = {
