@@ -6,10 +6,11 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import nodemailer from 'nodemailer'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -34,6 +35,16 @@ export default buildConfig({
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
+    uploadthingStorage({
+      collections: {
+        media: true,
+      },
+      options: {
+        token: process.env.UPLOADTHING_TOKEN,
+        acl: 'public-read',
+      },
+      // clientUploads: true,
+    }),
   ],
   email: nodemailerAdapter({
     defaultFromAddress: 'blackash.github@gmail.com',

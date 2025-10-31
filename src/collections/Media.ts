@@ -16,5 +16,6 @@ export const Media: CollectionConfig = {
     formatOptions: {
       format: 'webp',
     },
+    disableLocalStorage: true,
   },
 }
