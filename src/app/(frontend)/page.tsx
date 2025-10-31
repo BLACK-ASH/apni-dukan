@@ -1,6 +1,7 @@
 import ThemeToggle from '@/components/theme-toggle'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ContactForm } from '@/features/app/Component/ContactForm'
 
 export default async function HomePage() {
   return (
@@ -16,6 +17,9 @@ export default async function HomePage() {
         </div>
       </div>
       <Skeleton className="min-w-3xl min-h-2xl" />
+      <div className="mx-auto">
+        <ContactForm />
+      </div>
     </div>
   )
 }

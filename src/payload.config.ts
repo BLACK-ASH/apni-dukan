@@ -6,7 +6,8 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import nodemailer from 'nodemailer'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 
@@ -34,4 +35,15 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
   ],
+  email: nodemailerAdapter({
+    defaultFromAddress: 'blackash.github@gmail.com',
+    defaultFromName: 'Apni Dukan',
+    transport: nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.GOOGLE_APP_EMAIL,
+        pass: process.env.GOOGLE_APP_PASSWORD,
+      },
+    }),
+  }),
 })

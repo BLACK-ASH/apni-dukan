@@ -1,6 +1,7 @@
 import React from 'react'
 import './global.css'
 import { ThemeProvider } from '@/components/theme-provider'
+import { Toaster } from '@/components/ui/sonner'
 
 export const metadata = {
   description: ' Apni Dukan using Payload in a Next.js app.',
@@ -21,6 +22,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

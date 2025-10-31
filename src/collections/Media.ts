@@ -1,4 +1,3 @@
-import { Input } from '@/components/ui/input'
 import type { CollectionConfig } from 'payload'
 
 export const Media: CollectionConfig = {
@@ -13,5 +12,9 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  upload: {
+    formatOptions: {
+      format: 'webp',
+    },
+  },
 }
