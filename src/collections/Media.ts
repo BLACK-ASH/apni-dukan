@@ -12,6 +12,11 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
+  defaultPopulate: {
+    alt: true,
+    filename: true,
+    url: true,
+  },
   upload: {
     formatOptions: {
       format: 'webp',

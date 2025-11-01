@@ -11,7 +11,10 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
-
+import { Brands } from './collections/Brands'
+import { Categories } from './collections/Category'
+import { Products } from './collections/Products'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -22,7 +25,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Brands, Categories, Products],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -35,6 +38,14 @@ export default buildConfig({
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
+    seoPlugin({
+      collections: ['products'],
+      uploadsCollection: 'media',
+      tabbedUI: true,
+      generateTitle: ({ doc }) => `${process.env.COMPANY_NAME} - ${doc.title}`,
+      generateDescription: ({ doc }) => doc.description,
+      generateURL: ({ doc }) => `${process.env.NEXT_PUBLIC_BASE_URL}/shop/${doc.slug}`,
+    }),
     uploadthingStorage({
       collections: {
         media: true,
