@@ -5,12 +5,29 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
-import { slugField, type CollectionConfig } from 'payload'
+import { CollectionOverride } from 'node_modules/@payloadcms/plugin-ecommerce/dist/types'
+import { slugField } from 'payload'
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
 
-export const Products: CollectionConfig = {
+export const Products: CollectionOverride = ({ defaultCollection }) => ({
+  ...defaultCollection,
+  admin: {
+    ...defaultCollection?.admin,
+    defaultColumns: ['title', 'enableVariants', '_status', 'variants.variants'],
+
+    useAsTitle: 'title',
+  },
   slug: 'products',
   versions: {
-    drafts: true,
+    drafts: {
+      autosave: true,
+    },
   },
   fields: [
     {
@@ -36,14 +53,22 @@ export const Products: CollectionConfig = {
               type: 'row',
               fields: [
                 {
-                  name: 'actualPrice',
+                  name: 'priceInINR',
+                  label: 'Sale Price',
                   type: 'number',
                   required: true,
                 },
                 {
-                  name: 'offerPrice',
+                  name: 'discount',
+                  label: 'Discount',
                   type: 'number',
                   required: true,
+                },
+                {
+                  name: 'quantity',
+                  type: 'number',
+                  required: true,
+                  defaultValue: 0,
                 },
               ],
             },
@@ -100,7 +125,34 @@ export const Products: CollectionConfig = {
             },
           ],
         },
+        {
+          name: 'meta',
+          label: 'SEO',
+          fields: [
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
+            }),
+            MetaTitleField({
+              hasGenerateFn: true,
+            }),
+            MetaImageField({
+              relationTo: 'media',
+            }),
+
+            MetaDescriptionField({}),
+            PreviewField({
+              // if the `generateUrl` function is configured
+              hasGenerateFn: true,
+
+              // field paths to match the target field for data
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+            }),
+          ],
+        },
       ],
     },
   ],
-}
+})

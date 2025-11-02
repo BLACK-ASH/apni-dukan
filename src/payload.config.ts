@@ -18,6 +18,13 @@ import { seoPlugin } from '@payloadcms/plugin-seo'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+import { ecommercePlugin } from '@payloadcms/plugin-ecommerce'
+import { adminOnly } from './access/adminOnly'
+import { adminOnlyFieldAccess } from './access/adminOnlyFieldAccess'
+import { adminOrCustomerOwner } from './access/adminOrCustomerOwner'
+import { adminOrPublishedStatus } from './access/adminOrPublishedStatus'
+import { customerOnlyFieldAccess } from './access/customerOnlyFieldAccess'
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -25,7 +32,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Brands, Categories, Products],
+  collections: [Users, Media, Brands, Categories],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -55,6 +62,36 @@ export default buildConfig({
         acl: 'public-read',
       },
       // clientUploads: true,
+    }),
+
+    ecommercePlugin({
+      access: {
+        adminOnly,
+        adminOnlyFieldAccess,
+        adminOrCustomerOwner,
+        adminOrPublishedStatus,
+        customerOnlyFieldAccess,
+      },
+      customers: {
+        slug: 'users',
+      },
+      payments: {
+        
+      },
+      products: {
+        productsCollectionOverride: Products,
+      },
+      currencies: {
+        supportedCurrencies: [
+          {
+            code: 'INR',
+            symbol: '₹',
+            label: 'Indian Rupee',
+            decimals: 2,
+          },
+        ],
+        defaultCurrency: 'INR',
+      },
     }),
   ],
   email: nodemailerAdapter({
