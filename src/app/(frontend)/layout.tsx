@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 
 export const metadata = {
-  description: ' Apni Dukan using Payload in a Next.js app.',
+  description: 'Apni Dukan All in One Shop for all type of products',
   title: 'Apni Dukan',
 }
 
